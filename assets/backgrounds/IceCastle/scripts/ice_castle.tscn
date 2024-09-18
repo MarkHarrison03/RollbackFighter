@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://dh6275eil3p27"]
+
+[ext_resource type="Texture2D" uid="uid://b2xkfy5ybgrux" path="res://assets/backgrounds/Glacial-mountains-parallax-background_vnitti/background_glacial_mountains.png" id="1_j2p1j"]
+[ext_resource type="Texture2D" uid="uid://d0pdnfcatuuyq" path="res://assets/other/floor.png" id="2_uu8gj"]
+[ext_resource type="PackedScene" uid="uid://ce4htr2cfpyit" path="res://assets/characters/Knight 2D Pixel Art/Script/knight.tscn" id="3_1amml"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p4tg1"]
+size = Vector2(925.604, 850.641)
+
+[node name="IceCastle" type="Node2D"]
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_right = 1152.0
+offset_bottom = 648.0
+texture = ExtResource("1_j2p1j")
+
+[node name="Floor" type="Sprite2D" parent="."]
+position = Vector2(577, 622)
+scale = Vector2(1.24675, 0.0576036)
+texture = ExtResource("2_uu8gj")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Floor"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/StaticBody2D"]
+position = Vector2(-0.802063, 26.04)
+shape = SubResource("RectangleShape2D_p4tg1")
+
+[node name="Knight" parent="." instance=ExtResource("3_1amml")]
+position = Vector2(152, 489)
+scale = Vector2(5.56903, 5.56903)
