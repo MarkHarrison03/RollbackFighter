@@ -28,5 +28,7 @@ shape = SubResource("RectangleShape2D_p4tg1")
 [node name="Knight" parent="." instance=ExtResource("3_1amml")]
 position = Vector2(152, 489)
 scale = Vector2(5.56903, 5.56903)
-speed = null
-gravity = null
+MAX_SPEED = null
+ACCELERATION = null
+FRICTION = null
+GRAVITY = null
