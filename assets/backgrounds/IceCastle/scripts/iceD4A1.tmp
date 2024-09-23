@@ -14,34 +14,14 @@ offset_right = 1152.0
 offset_bottom = 648.0
 texture = ExtResource("1_j2p1j")
 
-[node name="Leftwall" type="StaticBody2D" parent="."]
-position = Vector2(30.9999, 331)
-rotation = -1.5708
-scale = Vector2(1.32675, 0.0576036)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Leftwall"]
-position = Vector2(223.855, -1024.24)
-scale = Vector2(1, 1)
-shape = SubResource("RectangleShape2D_p4tg1")
-
-[node name="Rightwall" type="StaticBody2D" parent="."]
-position = Vector2(30.9999, 331)
-rotation = -1.5708
-scale = Vector2(1.32675, 0.0576036)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Rightwall"]
-position = Vector2(217.825, 19912)
-scale = Vector2(1, 1)
-shape = SubResource("RectangleShape2D_p4tg1")
-
 [node name="Floor" type="Sprite2D" parent="."]
 position = Vector2(577, 622)
 scale = Vector2(1.24675, 0.0576036)
 texture = ExtResource("2_uu8gj")
 
-[node name="Floor" type="StaticBody2D" parent="Floor"]
+[node name="StaticBody2D" type="StaticBody2D" parent="Floor"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/Floor"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/StaticBody2D"]
 position = Vector2(-0.802063, 26.04)
 shape = SubResource("RectangleShape2D_p4tg1")
 
