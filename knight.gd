@@ -31,18 +31,18 @@ func horizontal_movement():
 		velocity.x = horizontal_input * speed
 
 func _process(delta):
-	print("INPUT CALLED--------------------------")
-	print (axis.x)
-	print(axis.y)
-	print(is_on_floor_only())
+
 	if axis.x == 0 and axis.y == 0 and is_on_floor():
 		print("idle!")
 		play_anim("Knight/Idle")		
 	if crouching and is_on_floor():
+		print("crouch!")
 		play_anim("Crouch")
-	if axis.x == -1:
+	if axis.x == -1 and is_on_floor():
+		print("backwalk!")
 		play_anim("Knight/BackWalk")
-	elif axis.x == 1:
+	elif axis.x == 1 and is_on_floor():
+		print("walk!")
 		play_anim("Knight/Walk")
 
 
