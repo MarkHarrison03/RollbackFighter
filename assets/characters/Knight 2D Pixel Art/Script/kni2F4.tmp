@@ -313,6 +313,7 @@ tracks/1/keys = {
 [sub_resource type="Animation" id="Animation_4o2di"]
 resource_name = "NeutralJump"
 length = 1.5
+loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -332,7 +333,7 @@ tracks/1/path = NodePath("AnimatedSprite2D:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.133333, 0.266667, 0.633333, 1.33333),
+"times": PackedFloat32Array(0, 0.233333, 0.433333, 0.9, 1.33333),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 1,
 "values": [0, 1, 2, 3, 4]
