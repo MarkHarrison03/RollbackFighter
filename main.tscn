@@ -1,0 +1,68 @@
+[gd_scene load_steps=2 format=3 uid="uid://bnvdts0k63v61"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_um475"]
+
+[node name="Main" type="Node2D"]
+position = Vector2(286, 144)
+scale = Vector2(-0.378898, -0.399625)
+script = ExtResource("1_um475")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="connection_panel" type="PanelContainer" parent="CanvasLayer"]
+offset_left = 243.0
+offset_top = 165.0
+offset_right = 401.0
+offset_bottom = 291.0
+scale = Vector2(3.67602, 3.03989)
+
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer/connection_panel"]
+layout_mode = 2
+columns = 2
+
+[node name="Host" type="Label" parent="CanvasLayer/connection_panel/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "Host:"
+
+[node name="HostField" type="LineEdit" parent="CanvasLayer/connection_panel/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "127.0.0.1"
+expand_to_text_length = true
+
+[node name="Port" type="Label" parent="CanvasLayer/connection_panel/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "Port:"
+
+[node name="PortField" type="LineEdit" parent="CanvasLayer/connection_panel/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "9999"
+
+[node name="ServerButton" type="Button" parent="CanvasLayer/connection_panel/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "Server"
+
+[node name="ClientButton" type="Button" parent="CanvasLayer/connection_panel/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "Client"
+
+[node name="messageLabel" type="Label" parent="CanvasLayer"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 23.0
+grow_horizontal = 2
+horizontal_alignment = 1
+
+[connection signal="pressed" from="CanvasLayer/connection_panel/GridContainer/ServerButton" to="." method="_on_server_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/connection_panel/GridContainer/ClientButton" to="." method="_on_client_button_pressed"]

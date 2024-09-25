@@ -8,6 +8,7 @@ extends CharacterBody2D
 @onready var crouching = false
 @onready var is_crouch_starting = false
 
+
 func get_input_axis():
 	if is_on_floor():
 		axis.x = int(Input.is_action_pressed("right")) - int(Input.is_action_pressed("left"))
@@ -46,19 +47,14 @@ func _process(delta):
 
 func _input(event):
 	if event.is_action_pressed("crouch") and is_on_floor():
-		scale.x += 0.1
-		scale.y += 0.1
 		axis.x = 0
 		velocity.x = 0
 		crouching = true
 		is_crouch_starting = true
 		play_anim("crouchStart")
 	if event.is_action_released("crouch"):
-		scale.x -= 0.1
-		scale.y -= 0.1
-
-
 		crouching = false
+
 	if event.is_action_pressed("jump") and is_on_floor():
 		play_anim("jump")
 		if samurai.current_animation != "jump":
