@@ -7,10 +7,11 @@ extends CharacterBody2D
 @onready var axis = Vector2.ZERO
 @onready var crouching = false
 @onready var is_crouch_starting = false
+@onready var is_attacking = false
 
 
 func get_input_axis():
-	if is_on_floor():
+	if is_on_floor() and not is_attacking:
 		axis.x = int(Input.is_action_pressed("right")) - int(Input.is_action_pressed("left"))
 		axis.y = int(Input.is_action_pressed("crouch")) - int(Input.is_action_pressed("jump"))
 
@@ -20,9 +21,13 @@ func _ready():
 	samurai.active = true
 	
 func _physics_process(delta):
-	print(samurai.current_animation)
-	axis = get_input_axis()
-	velocity.y += gravity * delta
+	print("attacking? ", is_attacking)
+	print("Velocity x? " , velocity.x)
+	print("disabled ", $Hitbox/CollisionShape2D.disabled)
+	if not is_attacking:
+		print(samurai.current_animation)
+		axis = get_input_axis()
+		velocity.y += gravity * delta
 	horizontal_movement()
 	move_and_slide()
 
@@ -30,18 +35,22 @@ func _physics_process(delta):
 func horizontal_movement():
 
 	var horizontal_input = Input.get_action_strength("right") - Input.get_action_strength("left")
-	if is_on_floor() and !crouching:
+	
+	if is_attacking:
+		print("slowing.......")
+		velocity.x = move_toward(velocity.x, 0, speed * 4 * get_physics_process_delta_time())
+	elif is_on_floor() and !crouching:
 		velocity.x = horizontal_input * speed
 
 func _process(delta):
-
-	if axis.x == 0 and axis.y == 0 and is_on_floor():
+	if axis.x == 0 and axis.y == 0 and is_on_floor() and samurai.current_animation != "attack":
+		print("CHANGING TO DILE")
 		play_anim("Idle")		
-	if crouching and is_on_floor() and !is_crouch_starting:
+	if crouching and is_on_floor() and !is_crouch_starting and samurai.current_animation != "attack":
 		play_anim("crouch")
-	if axis.x == -1 and is_on_floor():
+	if axis.x == -1 and is_on_floor() and samurai.current_animation != "attack":
 		play_anim("backrun")
-	elif axis.x == 1 and is_on_floor():
+	elif axis.x == 1 and is_on_floor() and samurai.current_animation != "attack":
 		play_anim("Run")
 
 
@@ -60,10 +69,18 @@ func _input(event):
 		if samurai.current_animation != "jump":
 			play_anim("jump")
 		velocity.y = jump_force		
+	if event.is_action_pressed("attack") and is_on_floor():
+		is_attacking = true
+		play_anim("attack")
+		print("heyattack")
 
 func play_anim(anim_name : String):
 	if samurai.current_animation != anim_name:
+		print(samurai.current_animation)
 		samurai.play(anim_name)
+		if anim_name == "attack":
+			await samurai.animation_finished
+			is_attacking = false
 
 
 func _on_animation_finished(anim_name: StringName) -> void:
