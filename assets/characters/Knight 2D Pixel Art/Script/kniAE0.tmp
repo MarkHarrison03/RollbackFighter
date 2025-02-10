@@ -437,7 +437,7 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id="Animation_4o2di"]
 resource_name = "NeutralJump"
-length = 1.3
+length = 1.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -457,10 +457,10 @@ tracks/1/path = NodePath("AnimatedSprite2D:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.133333, 0.266667, 0.433333),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.133333, 0.266667, 0.633333, 1.33333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 1,
-"values": [0, 1, 2, 3]
+"values": [0, 1, 2, 3, 4]
 }
 
 [sub_resource type="Animation" id="Animation_dx1yv"]
@@ -654,6 +654,9 @@ size = Vector2(15, 26)
 
 [node name="Knight" type="CharacterBody2D"]
 script = ExtResource("1_1yrjm")
+speed = null
+gravity = null
+jump_force = null
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0.915877, 3)
