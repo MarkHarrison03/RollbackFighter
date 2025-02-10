@@ -1,0 +1,47 @@
+[gd_scene load_steps=5 format=3 uid="uid://dh6275eil3p27"]
+
+[ext_resource type="Texture2D" uid="uid://b2xkfy5ybgrux" path="res://assets/backgrounds/Glacial-mountains-parallax-background_vnitti/background_glacial_mountains.png" id="1_j2p1j"]
+[ext_resource type="Texture2D" uid="uid://d0pdnfcatuuyq" path="res://assets/other/floor.png" id="2_uu8gj"]
+[ext_resource type="PackedScene" uid="uid://ce4htr2cfpyit" path="res://assets/characters/Knight 2D Pixel Art/Script/knight.tscn" id="3_1amml"]
+[ext_resource type="PackedScene" uid="uid://dhg8oc7ugy2w" path="res://assets/characters/FULL_Samurai 2D Pixel Art/Scrip/samurai.tscn" id="3_ncj1a"]
+
+[node name="IceCastle" type="Node2D"]
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_right = 1152.0
+offset_bottom = 648.0
+texture = ExtResource("1_j2p1j")
+
+[node name="Leftwall" type="SGStaticBody2D" parent="."]
+position = Vector2(30.9999, 331)
+rotation = -1.5708
+scale = Vector2(1.32675, 0.0576036)
+
+[node name="CollisionShape2D" type="SGCollisionShape2D" parent="Leftwall"]
+position = Vector2(223.855, -1024.24)
+
+[node name="Rightwall" type="SGStaticBody2D" parent="."]
+position = Vector2(30.9999, 331)
+rotation = -1.5708
+scale = Vector2(1.32675, 0.0576036)
+
+[node name="CollisionShape2D" type="SGCollisionShape2D" parent="Rightwall"]
+position = Vector2(217.825, 19912)
+
+[node name="Floor" type="Sprite2D" parent="."]
+position = Vector2(577, 622)
+scale = Vector2(1.24675, 0.0576036)
+texture = ExtResource("2_uu8gj")
+
+[node name="Floor" type="SGStaticBody2D" parent="Floor"]
+
+[node name="CollisionShape2D" type="SGCollisionShape2D" parent="Floor/Floor"]
+position = Vector2(-0.802063, 26.04)
+
+[node name="Samurai" parent="." instance=ExtResource("3_ncj1a")]
+position = Vector2(435, 480)
+
+[node name="Knight" parent="." instance=ExtResource("3_1amml")]
+position = Vector2(765, 501)
+rotation = -3.14159
+scale = Vector2(4.85272, -4.85272)
