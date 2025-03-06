@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://dh6275eil3p27"]
+[gd_scene load_steps=9 format=3 uid="uid://dh6275eil3p27"]
 
 [ext_resource type="Texture2D" uid="uid://b2xkfy5ybgrux" path="res://assets/backgrounds/Glacial-mountains-parallax-background_vnitti/background_glacial_mountains.png" id="1_j2p1j"]
+[ext_resource type="Script" path="res://assets/backgrounds/IceCastle/scripts/ice_castle.gd" id="1_r5hc8"]
 [ext_resource type="Texture2D" uid="uid://d0pdnfcatuuyq" path="res://assets/other/floor.png" id="2_uu8gj"]
 [ext_resource type="PackedScene" uid="uid://ce4htr2cfpyit" path="res://assets/characters/Knight 2D Pixel Art/Script/knight.tscn" id="3_1amml"]
 [ext_resource type="PackedScene" uid="uid://dhg8oc7ugy2w" path="res://assets/characters/FULL_Samurai 2D Pixel Art/Scrip/samurai.tscn" id="3_ncj1a"]
@@ -11,6 +12,7 @@
 size = Vector2(925.604, 850.641)
 
 [node name="IceCastle" type="Node2D"]
+script = ExtResource("1_r5hc8")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 offset_right = 1152.0

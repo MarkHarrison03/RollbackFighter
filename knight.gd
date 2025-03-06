@@ -147,4 +147,14 @@ func handle_death():
 		await knight.animation_finished
 		queue_free()
 
+func serialize_binary() -> PackedByteArray:
+	var buffer = PackedByteArray()
+	buffer.append(health)
+	buffer.append_array(serialize_position())
+	return buffer
 	
+func serialize_position() -> PackedByteArray:
+	var pos_buffer = PackedByteArray()
+	pos_buffer.append(position.x)
+	pos_buffer.append(position.y)
+	return pos_buffer

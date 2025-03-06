@@ -9,6 +9,8 @@ extends CharacterBody2D
 @onready var is_crouch_starting = false
 @onready var is_attacking = false
 @onready var controlling = true
+@onready var health = 100
+
 
 func get_input_axis():
 	if is_on_floor() and not is_attacking:
@@ -157,3 +159,16 @@ func _on_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "crouchStart":
 		is_crouch_starting = false
 		play_anim("crouch")
+		
+		
+func serialize_binary() -> PackedByteArray:
+	var buffer = PackedByteArray()
+	buffer.append(health)
+	buffer.append_array(serialize_position())
+	return buffer
+	
+func serialize_position() -> PackedByteArray:
+	var pos_buffer = PackedByteArray()
+	pos_buffer.append(position.x)
+	pos_buffer.append(position.y)
+	return pos_buffer
