@@ -27,7 +27,6 @@ func _ready():
 		
 	
 func _physics_process(delta):
-	print(is_attacking)
 	if not is_attacking:
 		axis = get_input_axis()
 		velocity.y += gravity * delta

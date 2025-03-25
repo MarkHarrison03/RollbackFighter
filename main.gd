@@ -5,7 +5,6 @@ extends Node2D
 @onready var port_field = $CanvasLayer/connection_panel/GridContainer/PortField
 @onready var message = $CanvasLayer/messageLabel
 
-
 func _ready() -> void:
 	multiplayer.peer_connected.connect(_on_network_peer_connected)
 	multiplayer.peer_disconnected.connect( _on_network_peer_disconnected)

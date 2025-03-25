@@ -1,0 +1,64 @@
+[gd_scene load_steps=9 format=3 uid="uid://dh6275eil3p27"]
+
+[ext_resource type="Texture2D" uid="uid://b2xkfy5ybgrux" path="res://assets/backgrounds/Glacial-mountains-parallax-background_vnitti/background_glacial_mountains.png" id="1_j2p1j"]
+[ext_resource type="Script" path="res://assets/backgrounds/IceCastle/scripts/ice_castle.gd" id="1_r5hc8"]
+[ext_resource type="Texture2D" uid="uid://d0pdnfcatuuyq" path="res://assets/other/floor.png" id="2_uu8gj"]
+[ext_resource type="PackedScene" uid="uid://ce4htr2cfpyit" path="res://assets/characters/Knight 2D Pixel Art/Script/knight.tscn" id="3_1amml"]
+[ext_resource type="PackedScene" uid="uid://dhg8oc7ugy2w" path="res://assets/characters/FULL_Samurai 2D Pixel Art/Scrip/samurai.tscn" id="3_ncj1a"]
+[ext_resource type="Script" path="res://assets/backgrounds/IceCastle/scripts/player.gd" id="4_dkq2a"]
+[ext_resource type="Script" path="res://assets/backgrounds/IceCastle/scripts/PlayerSamurai.gd" id="6_e4rmv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p4tg1"]
+size = Vector2(925.604, 850.641)
+
+[node name="IceCastle" type="Node2D"]
+script = ExtResource("1_r5hc8")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_right = 1152.0
+offset_bottom = 648.0
+texture = ExtResource("1_j2p1j")
+
+[node name="Leftwall" type="StaticBody2D" parent="."]
+position = Vector2(30.9999, 331)
+rotation = -1.5708
+scale = Vector2(1.32675, 0.0576036)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Leftwall"]
+position = Vector2(223.855, -1024.24)
+shape = SubResource("RectangleShape2D_p4tg1")
+
+[node name="Rightwall" type="StaticBody2D" parent="."]
+position = Vector2(30.9999, 331)
+rotation = -1.5708
+scale = Vector2(1.32675, 0.0576036)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rightwall"]
+position = Vector2(217.825, 19912)
+shape = SubResource("RectangleShape2D_p4tg1")
+
+[node name="Floor" type="Sprite2D" parent="."]
+position = Vector2(577, 622)
+scale = Vector2(1.24675, 0.0576036)
+texture = ExtResource("2_uu8gj")
+
+[node name="Floor" type="StaticBody2D" parent="Floor"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/Floor"]
+position = Vector2(-0.802063, 26.04)
+shape = SubResource("RectangleShape2D_p4tg1")
+
+[node name="Knight" parent="." instance=ExtResource("3_1amml")]
+position = Vector2(1014, 437)
+scale = Vector2(-4.85272, 4.85272)
+
+[node name="PlayerKnight" type="Node" parent="Knight"]
+script = ExtResource("4_dkq2a")
+
+[node name="Samurai" parent="." instance=ExtResource("3_ncj1a")]
+position = Vector2(146, 457)
+scale = Vector2(4.583, 4.583)
+
+[node name="PlayerSamurai" type="Node" parent="Samurai"]
+script = ExtResource("6_e4rmv")
+player_id = null

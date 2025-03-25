@@ -124,13 +124,10 @@ func jump():
 			velocity.y = jump_force		
 		#	jumping = false
 func take_damage(damage : int):
-	print("TAKING DAMAGE")
-	canMove = false
 	velocity.x += 50
 	await play_full_anim("hurt")
 	canMove = true
 	health -= damage
-	print(velocity)
 	move_and_slide()
 	
 func play_anim(anim_name : String):

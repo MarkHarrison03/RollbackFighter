@@ -18,11 +18,11 @@ func deserialize(state: PackedByteArray) :
 	for p in players:
 		p.deserialize(reader)
 		
-func clearPlayers():
-	players = []
+
 	
 	
 func add_players(p1: CharacterBody2D, p2: CharacterBody2D):
+	players = []
 	players.append(p1)
 	players.append(p2)
 			
