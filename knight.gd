@@ -34,6 +34,7 @@ func _physics_process(delta):
 		axis = get_input_axis()
 		velocity.y += gravity * delta
 	if controlling:
+		print("moving 1 k")
 		horizontal_movement()
 		move_and_slide()
 
@@ -81,6 +82,7 @@ func movement_remote (input_dictionary : Dictionary):
 		else:	
 			crouching = false
 		play_anims()
+	print("moving 2 k")
 	move_and_slide()
 func _process(delta):
 	play_anims()

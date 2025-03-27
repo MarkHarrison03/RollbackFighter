@@ -32,6 +32,7 @@ func _physics_process(delta):
 		velocity.y += gravity * delta
 	if controlling:
 		horizontal_movement()
+		print("moving 1 s")
 		move_and_slide()
 		
 	
@@ -103,6 +104,8 @@ func movement_remote (input_dictionary : Dictionary):
 			
 
 		play_anims()
+		print("moving 2 s")
+
 		move_and_slide()
 		
 func jump():

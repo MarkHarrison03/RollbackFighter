@@ -38,17 +38,19 @@ func get_input_state() -> Dictionary:
 
 		
 	}
+	
 @rpc("any_peer", "call_local")
 func send_inputs(input_state: Dictionary):
-	return
-	#input_buffer = input_state 
+	input_buffer = input_state 
+	#InputManager.last_input_received_time = Time.get_ticks_msec()
+	InputManager.current_prediction = input_state
+	InputManager.predict = false
 	
 func process_inputs():
 	if not input_buffer.has("frame"):
 		return
 	#print("REMOTE FRAME," , input_buffer["frame"])
-	print("CURRENT FRAME,", InputManager.get_current_frame())
-	var lag = InputManager.check_for_lag(input_buffer)
-	if !lag:
-		knight.movement_remote(input_buffer)
+	#print("CURRENT FRAME,", InputManager.get_current_frame())
+	#var lag = InputManager.check_for_lag(input_buffer)
+	knight.movement_remote(input_buffer)
 		

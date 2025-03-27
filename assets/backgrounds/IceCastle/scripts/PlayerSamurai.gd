@@ -39,11 +39,14 @@ func get_input_state() -> Dictionary:
 	}
 @rpc("any_peer", "call_local")
 func send_inputs(input_state: Dictionary):
-	#input_buffer = input_state 
+	input_buffer = input_state 
+	#InputManager.last_input_received_time = Time.get_ticks_msec()
+	InputManager.current_prediction = input_state
+	InputManager.predict = false
 	return
 	
 func process_inputs():
 
-	InputManager.check_for_lag(input_buffer)
+	#InputManager.check_for_lag(input_buffer)
 	samurai.movement_remote(input_buffer)
 		
