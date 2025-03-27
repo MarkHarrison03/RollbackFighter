@@ -61,3 +61,4 @@ scale = Vector2(4.583, 4.583)
 
 [node name="PlayerSamurai" type="Node" parent="Samurai"]
 script = ExtResource("6_e4rmv")
+player_id = null

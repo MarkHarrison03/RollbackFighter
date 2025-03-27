@@ -34,6 +34,7 @@ func _physics_process(delta):
 		axis = get_input_axis()
 		velocity.y += gravity * delta
 	if controlling:
+		print("moving 1 k")
 		horizontal_movement()
 		move_and_slide()
 
@@ -81,6 +82,7 @@ func movement_remote (input_dictionary : Dictionary):
 		else:	
 			crouching = false
 		play_anims()
+	print("moving 2 k")
 	move_and_slide()
 func _process(delta):
 	play_anims()
@@ -124,13 +126,10 @@ func jump():
 			velocity.y = jump_force		
 		#	jumping = false
 func take_damage(damage : int):
-	print("TAKING DAMAGE")
-	canMove = false
 	velocity.x += 50
 	await play_full_anim("hurt")
 	canMove = true
 	health -= damage
-	print(velocity)
 	move_and_slide()
 	
 func play_anim(anim_name : String):
@@ -147,4 +146,14 @@ func handle_death():
 		await knight.animation_finished
 		queue_free()
 
+func serialize_binary() -> PackedByteArray:
+	var buffer = PackedByteArray()
+	buffer.append(health)
+	buffer.append_array(serialize_position())
+	return buffer
 	
+func serialize_position() -> PackedByteArray:
+	var pos_buffer = PackedByteArray()
+	pos_buffer.append(position.x)
+	pos_buffer.append(position.y)
+	return pos_buffer
