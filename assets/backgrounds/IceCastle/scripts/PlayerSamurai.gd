@@ -46,7 +46,8 @@ func send_inputs(input_state: Dictionary):
 	return
 	
 func process_inputs():
-
+	if not input_buffer.has("frame"):
+		return
 	#InputManager.check_for_lag(input_buffer)
 	samurai.movement_remote(input_buffer)
 		

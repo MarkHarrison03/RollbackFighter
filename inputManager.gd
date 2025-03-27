@@ -37,9 +37,7 @@ func _process(delta: float) -> void:
 			send_heartbeat.rpc_id(multiplayer.get_peers()[0], Time.get_ticks_msec())
 			heartbeat_timer = 0.0
 			
-		if now - last_input_recieved_time > input_timeout_ms:
-			if not predict:
-				print("input timeout. Predicting")
+
 			predict = true
 			predict_last_input()
 		else:
@@ -54,6 +52,9 @@ func recieve_heartbeat_response(sent_time: int):
 	var now = Time.get_ticks_msec()
 	ping = now - sent_time
 	print("PING  RTT: ", ping, " ms")
+	if ping > input_timeout_ms:
+		if not predict:
+			print("input timeout. Predicting", now-last_input_recieved_time, " ")
 	last_heartbeat_recievedtime = now
 	
 
@@ -94,6 +95,6 @@ func predict_last_input():
 		
 	if player_id == 1 and predict:
 		opponent.movement_remote(current_prediction)
-			
+		
 		
 	
