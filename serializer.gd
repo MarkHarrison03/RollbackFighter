@@ -6,7 +6,7 @@ var time_left = 99
 		
 func serialize() -> PackedByteArray:
 	var buffer = PackedByteArray()
-	buffer.append(time_left)
+	buffer.append(InputManager.current_frame)
 	for p in players:
 		buffer.append_array(p.serialize_binary())
 	return buffer

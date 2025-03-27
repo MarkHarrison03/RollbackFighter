@@ -47,8 +47,12 @@ func horizontal_movement():
 
 
 func movement_remote (input_dictionary : Dictionary):
+	print("moving 2 k")
+
 	if controlling:
 		return
+	print("moving 222 k")
+
 	var right_input = int(input_dictionary.get("right", false))
 	var left_input = int(input_dictionary.get("left", false))
 	var jump_input = int(input_dictionary.get("jump", false))
@@ -82,7 +86,6 @@ func movement_remote (input_dictionary : Dictionary):
 		else:	
 			crouching = false
 		play_anims()
-	print("moving 2 k")
 	move_and_slide()
 func _process(delta):
 	play_anims()

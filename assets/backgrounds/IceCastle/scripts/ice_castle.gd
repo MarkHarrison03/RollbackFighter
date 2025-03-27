@@ -1,9 +1,8 @@
 extends Node2D
 
 var serializer 
-const MAX_ROLLBACK_FRAMES = 11
-var gamestate_buffer: Array = []
 
+var rollbackManager
 
 var game_started := false
 var local_ready := false
@@ -11,6 +10,8 @@ var remote_ready := false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	#var rollbackScript = load("res://RollbackManager.gd")
+	#rollbackManager = rollbackScript.new()
 	Engine.max_fps = 60	
 	#var id = 1
 	#
@@ -32,10 +33,11 @@ func start_game():
 	InputManager.game_started = true
 	InputManager.set_current_frame(0)
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	if local_ready and remote_ready and not InputManager.game_started:
 		start_game()
-	save_gamestate_buffers()
+	if InputManager.game_started:
+		save_gamestate_buffers()
 
 	pass
 
@@ -47,7 +49,7 @@ func save_gamestate_buffers():
 	var player1 = $Samurai
 	var player2 = $Knight
 	serializer.add_players(player1, player2)
-	gamestate_buffer.append(serializer.serialize())
-	
-	if gamestate_buffer.size() > MAX_ROLLBACK_FRAMES:
-		gamestate_buffer.pop_front()
+	var game_state = serializer.serialize()
+	print("gamestate1", game_state)
+	RollbackManager.add_gamestate_buffer(game_state)
+		

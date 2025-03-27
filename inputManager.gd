@@ -14,11 +14,14 @@ var last_heartbeat_recievedtime := 0
 const input_timeout_ms := 200
 const MAX_FRAME_DELTA := 2
 const FRAME_TIME := 1.0/60.0
+var rollbackManager
 var ping := 0
 var heartbeat_timer := 0.0
-
+const MAX_ROLLBACK_FRAMES = 12
 var frame_delta := 0
 func _ready():
+	#var script =  load("res://RollbackManager.gd")
+	#rollbackManager = script.new()
 	predict = false
 	if multiplayer.get_unique_id() == 1:
 		player_id = 1
@@ -34,6 +37,15 @@ func _ready():
 func _physics_process(delta: float) -> void:
 	if abs(current_frame - remote_frame) > 12:
 		print("UNSYNCED")
+		#when the unsync is detected, we want to set the last frame to the sync frame
+		RollbackManager.set_sync_frame(current_frame)
+	else:
+		RollbackManager.sync_locked = false
+		
+		#then we predict 
+		#then when an input is recieved again, we compare the actual input with the predicted input
+		#if its the same, continue as normal
+		#if its different, return to sync state and re-execute frames until the frame numbers match again (execute 12+ inputs in one frame?  )
 	print("current : ", current_frame, " remote : ", remote_frame)
 	if game_started:
 		current_frame += 1
@@ -70,7 +82,7 @@ func recieve_heartbeat_response(sent_time: int):
 	if ping > input_timeout_ms:
 		if not predict:
 			print("input timeout. Predicting", now-last_input_recieved_time, " ")
-			predict_last_input()
+			#predict_last_input()
 	last_heartbeat_recievedtime = now
 	
 
