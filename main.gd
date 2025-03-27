@@ -6,6 +6,7 @@ extends Node2D
 @onready var message = $CanvasLayer/messageLabel
 
 func _ready() -> void:
+	Engine.max_fps = 60
 	multiplayer.peer_connected.connect(_on_network_peer_connected)
 	multiplayer.peer_disconnected.connect( _on_network_peer_disconnected)
 	multiplayer.server_disconnected.connect(_on_server_disconnected)

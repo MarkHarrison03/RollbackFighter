@@ -11,9 +11,13 @@ var game_started := false
 
 var last_heartbeat_sendtime := 0
 var last_heartbeat_recievedtime := 0
-var input_timeout_ms := 200
+const input_timeout_ms := 200
+const MAX_FRAME_DELTA := 2
+const FRAME_TIME := 1.0/60.0
 var ping := 0
 var heartbeat_timer := 0.0
+
+var frame_delta := 0
 func _ready():
 	predict = false
 	if multiplayer.get_unique_id() == 1:
@@ -27,11 +31,20 @@ func _ready():
 	
 
 ## Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
+	if abs(current_frame - remote_frame) > 12:
+		print("UNSYNCED")
 	print("current : ", current_frame, " remote : ", remote_frame)
 	if game_started:
 		current_frame += 1
 		
+		frame_delta = remote_frame - current_frame
+		if frame_delta > MAX_FRAME_DELTA:
+			# we are behind
+			current_frame += 1
+		elif frame_delta < -MAX_FRAME_DELTA:
+			# we're ahead
+			await get_tree().create_timer(FRAME_TIME).timeout
 		var now = Time.get_ticks_msec()
 		heartbeat_timer += delta
 		if heartbeat_timer >= 0.1:

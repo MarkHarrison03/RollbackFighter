@@ -11,7 +11,7 @@ var remote_ready := false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-
+	Engine.max_fps = 60	
 	#var id = 1
 	#
 	#if multiplayer.get_unique_id() == 1:
