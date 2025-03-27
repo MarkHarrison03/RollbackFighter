@@ -37,11 +37,11 @@ func _process(delta: float) -> void:
 			send_heartbeat.rpc_id(multiplayer.get_peers()[0], Time.get_ticks_msec())
 			heartbeat_timer = 0.0
 			
+#
+			#predict = true
 
-			predict = true
-			predict_last_input()
-		else:
-			predict = false
+		#else:
+			#predict = false
 			
 @rpc("any_peer", "call_remote")
 func send_heartbeat(sent_time: int):
@@ -55,6 +55,7 @@ func recieve_heartbeat_response(sent_time: int):
 	if ping > input_timeout_ms:
 		if not predict:
 			print("input timeout. Predicting", now-last_input_recieved_time, " ")
+			predict_last_input()
 	last_heartbeat_recievedtime = now
 	
 
@@ -93,7 +94,8 @@ func predict_last_input():
 		elif player_id == 2:
 			opponent = get_node_or_null("/root/IceCastle/Samurai")
 		
-	if player_id == 1 and predict:
+	if player_id == 1:
+		print("PING -- PREDICTING", current_prediction)
 		opponent.movement_remote(current_prediction)
 		
 		
