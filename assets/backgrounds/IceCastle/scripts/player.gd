@@ -41,10 +41,13 @@ func get_input_state() -> Dictionary:
 	
 @rpc("any_peer", "call_local")
 func send_inputs(input_state: Dictionary):
+	if not input_buffer.has("frame"):
+		return
 	input_buffer = input_state 
 	#InputManager.last_input_received_time = Time.get_ticks_msec()
 	InputManager.current_prediction = input_state
 	InputManager.predict = false
+	InputManager.remote_frame = input_state["frame"]
 	
 func process_inputs():
 	if not input_buffer.has("frame"):

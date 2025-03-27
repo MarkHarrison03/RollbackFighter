@@ -2,6 +2,7 @@ extends Node
 
 var last_input_recieved_time := 0.0
 var current_frame := 0
+var remote_frame := 0
 var player_id : int
 @export var opponent: CharacterBody2D
 var current_prediction : Dictionary
@@ -27,7 +28,7 @@ func _ready():
 
 ## Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	
+	print("current : ", current_frame, " remote : ", remote_frame)
 	if game_started:
 		current_frame += 1
 		
@@ -51,6 +52,7 @@ func send_heartbeat(sent_time: int):
 func recieve_heartbeat_response(sent_time: int):
 	var now = Time.get_ticks_msec()
 	ping = now - sent_time
+	
 	print("PING  RTT: ", ping, " ms")
 	if ping > input_timeout_ms:
 		if not predict:
