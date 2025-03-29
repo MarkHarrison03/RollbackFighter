@@ -52,8 +52,8 @@ func get_input_state() -> Dictionary:
 	}
 	
 @rpc("any_peer", "call_local")
-func send_inputs(inputs: Dictionary):
-	
+func send_inputs(inputs: Array):
+	print("inputs")
 	for input_state in inputs:
 		if not input_state.has("frame"):
 			return
