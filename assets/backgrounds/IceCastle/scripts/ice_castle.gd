@@ -50,6 +50,5 @@ func save_gamestate_buffers():
 	var player2 = $Knight
 	serializer.add_players(player1, player2)
 	var game_state = serializer.serialize()
-	print("gamestate1", game_state)
 	RollbackManager.add_gamestate_buffer(game_state)
 		

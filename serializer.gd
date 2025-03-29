@@ -5,11 +5,14 @@ var players = []
 var time_left = 99
 		
 func serialize() -> PackedByteArray:
-	var buffer = PackedByteArray()
-	buffer.append(InputManager.current_frame)
+	
+	var writer = StreamPeerBuffer.new()
+	writer.put_32(InputManager.current_frame)
+	#var buffer = PackedByteArray()
+	#buffer.append(InputManager.current_frame)
 	for p in players:
-		buffer.append_array(p.serialize_binary())
-	return buffer
+		writer.put_data(p.serialize_binary())
+	return writer.get_data_array()
 		
 func deserialize(state: PackedByteArray) :
 	var reader = StreamPeerBuffer.new()

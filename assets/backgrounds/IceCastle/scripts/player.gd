@@ -50,7 +50,6 @@ func send_inputs(input_state: Dictionary):
 	InputManager.remote_frame = input_state["frame"]
 	
 func process_inputs():
-	print("here maybe")
 
 	if not input_buffer.has("frame"):
 		return

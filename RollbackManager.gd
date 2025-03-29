@@ -16,9 +16,8 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	print("gamestateBuffer, " , gamestate_buffer)
-	print("abc syncframe, " , sync_buffer)
-	print("abc currentframe ", InputManager.current_frame)
+	print("game, " , sync_buffer)
+
 	pass
 
 func set_sync_frame(frame: int): 
@@ -26,21 +25,29 @@ func set_sync_frame(frame: int):
 		return
 	last_synced_frame = frame - 1
 	sync_locked = true
-	print("raaaaagh, " , last_synced_frame, " ", frame)
+	#print("raaaaagh, " , last_synced_frame, " ", frame)
 	grab_synced_state()
 
 func grab_synced_state():
-	print( )
 	for state in gamestate_buffer:
-		print("raaagh" , state)
 		if state["frame"] == last_synced_frame:
-			sync_buffer = state["data"]
+			sync_buffer = state
+			print("entire buffer", gamestate_buffer)
+			print("state to be synced", state)
 			return
 func add_gamestate_buffer(state : PackedByteArray):
-	print("abc buffer")
+	var buffer := StreamPeerBuffer.new()
+	buffer.put_32(InputManager.get_current_frame())
+	buffer.put_data(state)
+	var packed := buffer.get_data_array()
+#	print("current IM frame: " , InputManager.get_current_frame())
+	buffer.seek(0)  
+	var state_frame = buffer.get_32()
+	#print("current state frame: ", state_frame)
+	#print(packed)
 	gamestate_buffer.append({
 		"frame": InputManager.get_current_frame(),
-		"data": state.duplicate()  #
+		"data": state  
 	})
 	
 	if gamestate_buffer.size() > MAX_ROLLBACK_FRAMES:

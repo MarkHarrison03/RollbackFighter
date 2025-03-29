@@ -34,7 +34,6 @@ func _physics_process(delta):
 		axis = get_input_axis()
 		velocity.y += gravity * delta
 	if controlling:
-		print("moving 1 k")
 		horizontal_movement()
 		move_and_slide()
 
@@ -47,11 +46,9 @@ func horizontal_movement():
 
 
 func movement_remote (input_dictionary : Dictionary):
-	print("moving 2 k")
 
 	if controlling:
 		return
-	print("moving 222 k")
 
 	var right_input = int(input_dictionary.get("right", false))
 	var left_input = int(input_dictionary.get("left", false))

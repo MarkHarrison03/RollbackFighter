@@ -39,7 +39,6 @@ func get_input_state() -> Dictionary:
 	}
 @rpc("any_peer", "call_local")
 func send_inputs(input_state: Dictionary):
-	print("current remote frame " , input_state)
 	if not input_state.has("frame"):
 		return
 	input_buffer = input_state 
