@@ -22,7 +22,6 @@ func _process(delta: float) -> void:
 	pass
 
 func set_sync_frame(frame: int): 
-	print("raaaa lock", sync_locked)
 	if sync_locked:
 		return
 	last_synced_frame = frame - 1
@@ -34,12 +33,15 @@ func grab_synced_state():
 	print( )
 	for state in gamestate_buffer:
 		print("raaagh" , state)
-		if state[0] == last_synced_frame:
-			sync_buffer = state.data
+		if state["frame"] == last_synced_frame:
+			sync_buffer = state["data"]
 			return
 func add_gamestate_buffer(state : PackedByteArray):
 	print("abc buffer")
-	gamestate_buffer.append(state)
+	gamestate_buffer.append({
+		"frame": InputManager.get_current_frame(),
+		"data": state.duplicate()  #
+	})
 	
 	if gamestate_buffer.size() > MAX_ROLLBACK_FRAMES:
 		gamestate_buffer.pop_front()

@@ -40,6 +40,7 @@ func _physics_process(delta: float) -> void:
 		#when the unsync is detected, we want to set the last frame to the sync frame
 		RollbackManager.set_sync_frame(current_frame)
 	else:
+		print("NO MORE LATENCY", randi())
 		RollbackManager.sync_locked = false
 		
 		#then we predict 
