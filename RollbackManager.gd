@@ -9,6 +9,7 @@ const MAX_ROLLBACK_FRAMES = 12
 var sync_buffer
 var sync_locked := false
 var game : Node = null
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass # Replace with function body.

@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 InputManager="*res://inputManager.gd"
 RollbackManager="*res://RollbackManager.gd"
+InputReplicator="*res://InputReplicator.gd"
 
 [editor_plugins]
 

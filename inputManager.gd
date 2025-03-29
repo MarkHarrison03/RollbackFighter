@@ -19,6 +19,9 @@ var ping := 0
 var heartbeat_timer := 0.0
 const MAX_ROLLBACK_FRAMES = 12
 var frame_delta := 0
+
+var last_predicted_intput := {}
+
 func _ready():
 	#var script =  load("res://RollbackManager.gd")
 	#rollbackManager = script.new()
@@ -36,13 +39,14 @@ func _ready():
 ## Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
 	if abs(current_frame - remote_frame) > 12:
+		
 		#print("UNSYNCED")
 		#when the unsync is detected, we want to set the last frame to the sync frame
 		RollbackManager.set_sync_frame(current_frame)
 	else:
 		#print("NO MORE LATENCY", randi())
 		RollbackManager.sync_locked = false
-		
+		print("new input recieved, " , )
 		#then we predict 
 		#then when an input is recieved again, we compare the actual input with the predicted input
 		#if its the same, continue as normal
@@ -124,7 +128,9 @@ func predict_last_input():
 		
 	if player_id == 1:
 	#	print("PING -- PREDICTING", current_prediction)
+		InputReplicator.set_last_predicted_input(current_prediction)
 		opponent.movement_remote(current_prediction)
+		
 		
 		
 	

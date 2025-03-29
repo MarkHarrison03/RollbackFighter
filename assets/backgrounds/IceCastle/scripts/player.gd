@@ -3,7 +3,8 @@ extends Node
 @export var player_id: int
 @export var knight: CharacterBody2D
 var input_buffer = {}
-
+var input_history = {}
+const MAX_ROLLBACK_FRAMES = 12
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	if multiplayer.get_unique_id() == 1:
@@ -23,7 +24,18 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if multiplayer.get_peers().size() > 0:
-		send_inputs.rpc_id(multiplayer.get_peers()[0], get_input_state())
+		var input = get_input_state()
+		var frame = input["frame"]
+		
+		for key in input_history.keys():
+			if key < frame - MAX_ROLLBACK_FRAMES:
+				input_history.erase(key)
+		
+		var inputs_to_send := []
+		for i in range(frame - (MAX_ROLLBACK_FRAMES - 1), frame + 1):
+			if input_history.has(i):
+				inputs_to_send.append(input_history[i])
+		send_inputs.rpc_id(multiplayer.get_peers()[0], inputs_to_send)
 	process_inputs()
 	
 	
@@ -40,14 +52,18 @@ func get_input_state() -> Dictionary:
 	}
 	
 @rpc("any_peer", "call_local")
-func send_inputs(input_state: Dictionary):
-	if not input_state.has("frame"):
-		return
-	input_buffer = input_state 
-	#InputManager.last_input_received_time = Time.get_ticks_msec()
-	InputManager.current_prediction = input_state
-	InputManager.predict = false
-	InputManager.remote_frame = input_state["frame"]
+func send_inputs(inputs: Dictionary):
+	
+	for input_state in inputs:
+		if not input_state.has("frame"):
+			return
+		var frame = input_state["frame"]
+		InputReplicator.real_input_by_frame[frame] = input_state
+		InputManager.current_prediction = input_state
+		InputManager.predict = false
+		InputManager.remote_frame = input_state["frame"]
+		if frame > InputReplicator.current_remote_input.get("frame", -1):
+			InputReplicator.set_current_remote_input(input_state)
 	
 func process_inputs():
 
