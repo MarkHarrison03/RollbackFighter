@@ -37,7 +37,7 @@ func _process(delta: float) -> void:
 		for i in range(frame - (MAX_ROLLBACK_FRAMES - 1), frame + 1):
 			if input_history.has(i):
 				inputs_to_send.append(input_history[i])
-	#	print(inputs_to_send)
+		print("in", inputs_to_send)
 		send_inputs.rpc_id(multiplayer.get_peers()[0], inputs_to_send)
 	process_inputs()
 	

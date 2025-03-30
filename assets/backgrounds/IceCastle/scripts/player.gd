@@ -55,12 +55,12 @@ func get_input_state() -> Dictionary:
 	
 @rpc("any_peer", "call_local")
 func send_inputs(inputs: Array):
-	#print("aaaaa", inputs)
+	print("aaaaa", inputs)
 	for input_state in inputs:
 		#if not input_state.has("frame"):
 			#return
 		var frame = input_state["frame"]
-		#print("aaa", input_state)d
+		print("aaa", input_state)
 		InputReplicator.real_input_by_frame[frame] = input_state
 		for key in InputReplicator.real_input_by_frame.keys():
 			if key < frame - MAX_ROLLBACK_FRAMES:
@@ -76,6 +76,8 @@ func process_inputs():
 
 	var frame = InputManager.get_current_frame()
 	var remote_frame = 	InputReplicator.real_input_by_frame.keys().reduce(func(a, b): return max(a, b))
+	if remote_frame == null:
+		return
 
 	if remote_frame < frame - MAX_ROLLBACK_FRAMES:
 		var prediction = InputReplicator.get_prediction_input(frame)
@@ -83,6 +85,5 @@ func process_inputs():
 		InputReplicator.set_last_predicted_input(prediction)
 	else:
 		var real_input = InputReplicator.real_input_by_frame.get(remote_frame)
-		# ✅ use input only if it matches the current frame
 		knight.movement_remote(real_input)
 		InputReplicator.set_current_remote_input(real_input)
