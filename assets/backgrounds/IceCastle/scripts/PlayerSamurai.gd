@@ -28,7 +28,7 @@ func _process(delta: float) -> void:
 	if multiplayer.get_peers().size() > 0:
 		var input = get_input_state()
 		var frame = input["frame"]
-		
+		input_history[frame] = input
 		for key in input_history.keys():
 			if key < frame - MAX_ROLLBACK_FRAMES:
 				input_history.erase(key)
@@ -37,6 +37,7 @@ func _process(delta: float) -> void:
 		for i in range(frame - (MAX_ROLLBACK_FRAMES - 1), frame + 1):
 			if input_history.has(i):
 				inputs_to_send.append(input_history[i])
+	#	print(inputs_to_send)
 		send_inputs.rpc_id(multiplayer.get_peers()[0], inputs_to_send)
 	process_inputs()
 	
@@ -52,7 +53,7 @@ func get_input_state() -> Dictionary:
 	}
 @rpc("any_peer", "call_local")
 func send_inputs(inputs: Array):
-	
+	#print(inputs)
 	for input_state in inputs:
 		if not input_state.has("frame"):
 			return

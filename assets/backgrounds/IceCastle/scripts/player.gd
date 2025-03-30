@@ -5,6 +5,7 @@ extends Node
 var input_buffer = {}
 var input_history = {}
 const MAX_ROLLBACK_FRAMES = 12
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	if multiplayer.get_unique_id() == 1:
@@ -26,7 +27,8 @@ func _process(delta: float) -> void:
 	if multiplayer.get_peers().size() > 0:
 		var input = get_input_state()
 		var frame = input["frame"]
-		
+		input_history[frame] = input
+
 		for key in input_history.keys():
 			if key < frame - MAX_ROLLBACK_FRAMES:
 				input_history.erase(key)
@@ -53,12 +55,17 @@ func get_input_state() -> Dictionary:
 	
 @rpc("any_peer", "call_local")
 func send_inputs(inputs: Array):
-	print("inputs")
+	#print("aaaaa", inputs)
 	for input_state in inputs:
-		if not input_state.has("frame"):
-			return
+		#if not input_state.has("frame"):
+			#return
 		var frame = input_state["frame"]
+		#print("aaa", input_state)d
 		InputReplicator.real_input_by_frame[frame] = input_state
+		for key in InputReplicator.real_input_by_frame.keys():
+			if key < frame - MAX_ROLLBACK_FRAMES:
+				InputReplicator.real_input_by_frame.erase(key)
+		#print("bb", InputReplicator.real_input_by_frame)
 		InputManager.current_prediction = input_state
 		InputManager.predict = false
 		InputManager.remote_frame = input_state["frame"]
@@ -67,10 +74,15 @@ func send_inputs(inputs: Array):
 	
 func process_inputs():
 
-	if not input_buffer.has("frame"):
-		return
-	#print("REMOTE FRAME," , input_buffer["frame"])
-	#print("CURRENT FRAME,", InputManager.get_current_frame())
-	#var lag = InputManager.check_for_lag(input_buffer)
-	knight.movement_remote(input_buffer)
-		
+	var frame = InputManager.get_current_frame()
+	var remote_frame = 	InputReplicator.real_input_by_frame.keys().reduce(func(a, b): return max(a, b))
+
+	if remote_frame < frame - MAX_ROLLBACK_FRAMES:
+		var prediction = InputReplicator.get_prediction_input(frame)
+		knight.movement_remote(prediction)
+		InputReplicator.set_last_predicted_input(prediction)
+	else:
+		var real_input = InputReplicator.real_input_by_frame.get(remote_frame)
+		# ✅ use input only if it matches the current frame
+		knight.movement_remote(real_input)
+		InputReplicator.set_current_remote_input(real_input)
