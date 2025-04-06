@@ -10,6 +10,7 @@ extends CharacterBody2D
 @onready var controlling = true
 @onready var canMove = true
 @onready var jumping = false
+var is_playing_full_anim := false
 func get_input_axis():
 	if is_on_floor() and multiplayer.get_unique_id() != 1:
 		axis.x = int(Input.is_action_pressed("right")) - int(Input.is_action_pressed("left"))
@@ -88,7 +89,9 @@ func _process(delta):
 	play_anims()
 	
 func play_anims():
-
+		if is_playing_full_anim:
+			return
+		
 		if canMove and not jumping:
 
 			if axis.x == 0 and axis.y == 0 and is_on_floor() and not crouching and not jumping:
@@ -126,8 +129,12 @@ func jump():
 			velocity.y = jump_force		
 		#	jumping = false
 func take_damage(damage : int):
+	if is_playing_full_anim:
+		return 
+	is_playing_full_anim = true
 	velocity.x += 50
 	await play_full_anim("hurt")
+	is_playing_full_anim = false
 	canMove = true
 	health -= damage
 	move_and_slide()
@@ -144,7 +151,8 @@ func play_full_anim(anim_name : String):
 func handle_death():
 		knight.play("death")
 		await knight.animation_finished
-		queue_free()
+
+		get_tree().quit()
 
 func serialize_binary() -> PackedByteArray:
 	var buffer = PackedByteArray()

@@ -95,7 +95,7 @@ func rollback():
 
 	print("Overlap frames: ", overlap_frames)
 	for f in range(overlap_frames[0], overlap_frames[overlap_frames.size() - 1]):
-		var remote_input = InputReplicator.real_input_by_frame[f]
+		var remote_input = InputReplicator.real_input_by_frame.get(f)
 		
 		if remote_input == null:
 			remote_input = InputReplicator.predicted_input_by_frame.get(f)
