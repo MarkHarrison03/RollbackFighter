@@ -10,6 +10,7 @@ extends CharacterBody2D
 @onready var is_attacking = false
 @onready var controlling = true
 @onready var health = 100
+@onready var health_bar : ProgressBar
 
 
 func get_input_axis():
@@ -21,7 +22,8 @@ func get_input_axis():
 	
 func _ready():
 	samurai.active = true
-	
+	health_bar = get_node("/root/IceCastle/UI/SamuraiHealthbar")
+
 	if multiplayer.get_unique_id() != 1:
 		controlling = false
 		

@@ -10,6 +10,8 @@ extends CharacterBody2D
 @onready var controlling = true
 @onready var canMove = true
 @onready var jumping = false
+@onready var health_bar : ProgressBar
+
 var is_playing_full_anim := false
 func get_input_axis():
 	if is_on_floor() and multiplayer.get_unique_id() != 1:
@@ -19,6 +21,7 @@ func get_input_axis():
 	return axis.normalized()
 	
 func _ready():
+	health_bar = get_node("/root/IceCastle/UI/KnightHealthbar")
 	knight.active = true
 	if multiplayer.get_unique_id() == 1:
 		controlling = false
@@ -137,8 +140,12 @@ func take_damage(damage : int):
 	is_playing_full_anim = false
 	canMove = true
 	health -= damage
+	update_health_bar()
 	move_and_slide()
 	
+func update_health_bar():
+	if health_bar:
+		health_bar.value = health
 func play_anim(anim_name : String):
 	if knight.current_animation != anim_name:
 		knight.play(anim_name)

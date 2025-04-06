@@ -7,15 +7,11 @@
 [ext_resource type="PackedScene" uid="uid://dhg8oc7ugy2w" path="res://assets/characters/FULL_Samurai 2D Pixel Art/Scrip/samurai.tscn" id="3_ncj1a"]
 [ext_resource type="Script" path="res://assets/backgrounds/IceCastle/scripts/player.gd" id="4_dkq2a"]
 [ext_resource type="Script" path="res://assets/backgrounds/IceCastle/scripts/PlayerSamurai.gd" id="6_e4rmv"]
+[ext_resource type="Texture2D" uid="uid://bi1bw8ycya1vb" path="res://assets/ui/healthback.png" id="8_dfowj"]
+[ext_resource type="Texture2D" uid="uid://dd0l1fot2nm7u" path="res://assets/ui/healthbar.png" id="9_gegdq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p4tg1"]
 size = Vector2(925.604, 850.641)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3ytco"]
-bg_color = Color(0.594427, 0.237758, 0.248674, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_83g2h"]
-bg_color = Color(0.596078, 0.239216, 0.247059, 1)
 
 [node name="IceCastle" type="Node2D"]
 script = ExtResource("1_r5hc8")
@@ -70,20 +66,18 @@ script = ExtResource("6_e4rmv")
 
 [node name="UI" type="CanvasLayer" parent="."]
 
-[node name="KnightHealthbar" type="ProgressBar" parent="UI"]
-offset_left = 624.0
-offset_top = 25.0
-offset_right = 1145.0
-offset_bottom = 68.0
-theme_override_styles/fill = SubResource("StyleBoxFlat_3ytco")
-value = 100.0
-show_percentage = false
+[node name="KnightHealthbar" type="TextureProgressBar" parent="UI"]
+offset_left = 710.0
+offset_top = 7.0
+offset_right = 1246.0
+offset_bottom = 86.0
+texture_under = ExtResource("8_dfowj")
+texture_over = ExtResource("9_gegdq")
 
-[node name="SamuraiHealthbar" type="ProgressBar" parent="UI"]
-offset_left = 7.0
-offset_top = 25.0
-offset_right = 547.0
-offset_bottom = 68.0
-theme_override_styles/fill = SubResource("StyleBoxFlat_83g2h")
-value = 100.0
-show_percentage = false
+[node name="SamuraiHealthbar" type="TextureProgressBar" parent="UI"]
+offset_left = 6.0
+offset_top = 7.0
+offset_right = 440.0
+offset_bottom = 86.0
+texture_under = ExtResource("8_dfowj")
+texture_over = ExtResource("9_gegdq")
