@@ -14,7 +14,11 @@ extends CharacterBody2D
 
 @onready var health_bar : ProgressBar
 var is_playing_full_anim := false
-
+@onready var hitbox = $KnightHitbox
+@onready var hurtbox = $Hurtbox
+@onready var sprite = $AnimatedSprite2D
+var flipped = false
+var remote_is_blocking = false
 
 func get_input_axis():
 	if is_on_floor() and not is_attacking:
@@ -41,7 +45,8 @@ func _physics_process(delta):
 		velocity.y += gravity * delta
 	if controlling:
 		horizontal_movement()
-		move_and_slide()
+		if not is_playing_full_anim:
+			move_and_slide()
 		
 	
 
@@ -87,7 +92,16 @@ func movement_remote (input_dictionary : Dictionary):
 		var jump_input = int(input_dictionary.get("jump", false))
 		var crouch_input = int(input_dictionary.get("crouch", false))
 		var attack_input = int(input_dictionary.get("attack", false))
-	
+		if flipped:
+				if left_input == 1:
+					remote_is_blocking = true
+				else:
+					remote_is_blocking = false
+		else:
+				if right_input == 1:
+					remote_is_blocking = true
+				else:
+					remote_is_blocking = false
 		if canMove:
 			var horizontal_input = right_input - left_input
 			if is_attacking:
@@ -113,8 +127,8 @@ func movement_remote (input_dictionary : Dictionary):
 				
 
 			play_anims()
-
-		move_and_slide()
+		if not is_playing_full_anim:
+			move_and_slide()
 		
 func jump():
 	if samurai.current_animation != "jump":
@@ -163,6 +177,18 @@ func attack():
 func take_damage(damage : int):
 	if is_playing_full_anim:
 		return 
+	if flipped:
+		if Input.is_action_pressed("right"):
+			is_playing_full_anim=true
+			await play_full_anim("block")
+			is_playing_full_anim = false
+			return
+	else:
+		if Input.is_action_pressed("left"):
+			is_playing_full_anim=true
+			await play_full_anim("block")
+			is_playing_full_anim = false
+			return
 	is_playing_full_anim = true
 	velocity.x += 50
 	await play_full_anim("hurt")
@@ -210,3 +236,18 @@ func serialize_position() -> PackedByteArray:
 	pos_buffer.append(position.x)
 	pos_buffer.append(position.y)
 	return pos_buffer
+
+
+#func face_opponent(opponent_position: Vector2):
+	#hitbox = $SamuraiHitbox
+#
+	#var facing_left = opponent_position.x < global_position.x
+	#sprite.flip_h = facing_left
+	#
+	#var hitbox_pos = hitbox.position
+	#hitbox_pos.x = abs(hitbox_pos.x) * (-1 if facing_left else 1)
+	#hitbox.position = hitbox_pos
+#
+	#var hurtbox_pos = hurtbox.position
+	#hurtbox_pos.x = abs(hurtbox_pos.x) * (-1 if facing_left else 1)
+	#hurtbox.position = hurtbox_pos

@@ -12,7 +12,9 @@ extends CharacterBody2D
 @onready var jumping = false
 @onready var is_attacking = false
 @onready var health_bar : ProgressBar
+var flipped = false
 
+var remote_is_blocking = false
 var is_playing_full_anim := false
 func get_input_axis():
 	if is_on_floor() and multiplayer.get_unique_id() != 1:
@@ -40,7 +42,8 @@ func _physics_process(delta):
 		velocity.y += gravity * delta
 	if controlling:
 		horizontal_movement()
-		move_and_slide()
+		if not is_playing_full_anim:
+			move_and_slide()
 
 	
 func horizontal_movement():
@@ -60,6 +63,17 @@ func movement_remote (input_dictionary : Dictionary):
 	var jump_input = int(input_dictionary.get("jump", false))
 	var crouch_input = int(input_dictionary.get("crouch", false))
 	var attack_input = int(input_dictionary.get("attack", false))
+	
+	if flipped:
+		if left_input == 1:
+			remote_is_blocking = true
+		else:
+			remote_is_blocking = false
+	else:
+		if right_input == 1:
+			remote_is_blocking = true
+		else:
+			remote_is_blocking = false
 	axis.x = right_input - left_input
 	axis.y = crouch_input - jump_input
 	
@@ -80,7 +94,7 @@ func movement_remote (input_dictionary : Dictionary):
 			attack()
 
 
-		if(crouch_input == 1 and is_on_floor()):
+		if(crouch_input == 1 and is_on_floor() and not is_playing_full_anim):
 			play_anim("Crouch")
 	
 			axis.x = 0
@@ -89,7 +103,8 @@ func movement_remote (input_dictionary : Dictionary):
 		else:	
 			crouching = false
 		play_anims()
-	move_and_slide()
+	if not is_playing_full_anim:
+		move_and_slide()
 func _process(delta):
 	play_anims()
 
@@ -129,7 +144,8 @@ func _input(event):
 			jump()
 		#else:
 		#	jumping = false
-			
+		if event.is_action_pressed("attack") and is_on_floor():
+			attack()
 func jump():
 
 			if knight.current_animation != "NeutralJump":
@@ -140,6 +156,18 @@ func jump():
 func take_damage(damage : int):
 	if is_playing_full_anim:
 		return 
+	if flipped:
+		if Input.is_action_pressed("left") or remote_is_blocking:
+			is_playing_full_anim=true
+			await play_full_anim("block")
+			is_playing_full_anim = false
+			return
+	else:
+		if Input.is_action_pressed("right") or remote_is_blocking:
+			is_playing_full_anim=true
+			await play_full_anim("block")
+			is_playing_full_anim = false
+			return
 	is_playing_full_anim = true
 	velocity.x += 50
 	await play_full_anim("hurt")
@@ -182,3 +210,11 @@ func serialize_position() -> PackedByteArray:
 	pos_buffer.append(position.x)
 	pos_buffer.append(position.y)
 	return pos_buffer
+
+
+#func face_opponent(opponent_position: Vector2):
+	#if opponent_position.x > global_position.x:
+		#$AnimatedSprite2D.position.x *= -1
+		#$KnightHitbox.position.x *= -1
+		#$Hurtbox.position.x *= -1
+	#

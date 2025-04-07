@@ -1,4 +1,4 @@
-[gd_scene load_steps=82 format=3 uid="uid://ce4htr2cfpyit"]
+[gd_scene load_steps=90 format=3 uid="uid://ce4htr2cfpyit"]
 
 [ext_resource type="Script" path="res://knight.gd" id="1_1yrjm"]
 [ext_resource type="Texture2D" uid="uid://bt4pr33mh5wrh" path="res://assets/characters/Knight 2D Pixel Art/Sprites/without_outline/WALK.png" id="2_hdpfx"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://055abjglk0c0" path="res://assets/characters/Knight 2D Pixel Art/Sprites/without_outline/ATTACK 2.png" id="5_2dxnp"]
 [ext_resource type="Texture2D" uid="uid://cu4iqcglxx6j7" path="res://assets/characters/Knight 2D Pixel Art/Sprites/without_outline/HURT.png" id="5_5spvt"]
 [ext_resource type="Texture2D" uid="uid://13yqxcurdc3v" path="res://assets/characters/Knight 2D Pixel Art/Sprites/without_outline/DEATH.png" id="5_o60te"]
+[ext_resource type="Texture2D" uid="uid://d3386h3s33qh4" path="res://assets/characters/Knight 2D Pixel Art/Sprites/without_outline/DEFEND.png" id="6_jq14r"]
 [ext_resource type="Script" path="res://assets/characters/Knight 2D Pixel Art/Script/Hurtbox.gd" id="6_uaec7"]
 [ext_resource type="Script" path="res://assets/characters/FULL_Samurai 2D Pixel Art/Scrip/hitbox.gd" id="10_rvten"]
 
@@ -153,6 +154,30 @@ region = Rect2(288, 0, 96, 84)
 [sub_resource type="AtlasTexture" id="AtlasTexture_ra8ey"]
 atlas = ExtResource("5_2dxnp")
 region = Rect2(384, 0, 96, 84)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vt0sl"]
+atlas = ExtResource("6_jq14r")
+region = Rect2(0, 0, 96, 84)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5axca"]
+atlas = ExtResource("6_jq14r")
+region = Rect2(96, 0, 96, 84)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n68gd"]
+atlas = ExtResource("6_jq14r")
+region = Rect2(192, 0, 96, 84)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oov0j"]
+atlas = ExtResource("6_jq14r")
+region = Rect2(288, 0, 96, 84)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lb1s2"]
+atlas = ExtResource("6_jq14r")
+region = Rect2(384, 0, 96, 84)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ihcov"]
+atlas = ExtResource("6_jq14r")
+region = Rect2(480, 0, 96, 84)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_yh7vr"]
 atlas = ExtResource("5_o60te")
@@ -368,6 +393,29 @@ animations = [{
 }],
 "loop": true,
 "name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vt0sl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5axca")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n68gd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oov0j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lb1s2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ihcov")
+}],
+"loop": true,
+"name": &"block",
 "speed": 5.0
 }, {
 "frames": [{
@@ -664,12 +712,41 @@ tracks/1/keys = {
 "values": [0, 2, 1, 3]
 }
 
+[sub_resource type="Animation" id="Animation_vxdjc"]
+resource_name = "block"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"block"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_jdr6r"]
 _data = {
 "Crouch": SubResource("Animation_jnt7i"),
 "NeutralJump": SubResource("Animation_4o2di"),
 "RESET": SubResource("Animation_dx1yv"),
 "attack": SubResource("Animation_rkrwl"),
+"block": SubResource("Animation_vxdjc"),
 "death": SubResource("Animation_swpe4"),
 "hurt": SubResource("Animation_ko0i1")
 }

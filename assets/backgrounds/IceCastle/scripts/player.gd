@@ -28,7 +28,6 @@ func _process(delta: float) -> void:
 		var input = get_input_state()
 		var frame = input["frame"]
 		input_history[frame] = input
-
 		for key in input_history.keys():
 			if key < frame - MAX_ROLLBACK_FRAMES:
 				input_history.erase(key)
