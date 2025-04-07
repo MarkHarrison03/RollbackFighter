@@ -40,7 +40,7 @@ func _physics_process(delta):
 		canMove = false
 		handle_death()
 		
-	if not is_attacking:
+	if canMove:
 		axis = get_input_axis()
 		velocity.y += gravity * delta
 	if controlling:

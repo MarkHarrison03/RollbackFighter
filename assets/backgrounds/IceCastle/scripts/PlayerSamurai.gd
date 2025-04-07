@@ -53,27 +53,37 @@ func get_input_state() -> Dictionary:
 	}
 @rpc("any_peer", "call_local")
 func send_inputs(inputs: Array):
-	#print(inputs)
+	print("aaaaa", inputs)
 	for input_state in inputs:
-		if not input_state.has("frame"):
-			return
+		#if not input_state.has("frame"):
+			#return
 		var frame = input_state["frame"]
+		print("aaa", input_state)
 		InputReplicator.real_input_by_frame[frame] = input_state
+		for key in InputReplicator.real_input_by_frame.keys():
+			if key < frame - MAX_ROLLBACK_FRAMES:
+				InputReplicator.real_input_by_frame.erase(key)
+		#print("bb", InputReplicator.real_input_by_frame)
 		InputManager.current_prediction = input_state
 		InputManager.predict = false
 		InputManager.remote_frame = input_state["frame"]
 		if frame > InputReplicator.current_remote_input.get("frame", -1):
 			InputReplicator.set_current_remote_input(input_state)
-	#input_buffer = input_state 
-	#InputReplicator.set_current_remote_input(input_state)
-
-	#InputManager.last_input_received_time = Time.get_ticks_msec()
-
+	
 	
 	
 func process_inputs():
-	if not input_buffer.has("frame"):
+
+	var frame = InputManager.get_current_frame()
+	var remote_frame = 	InputReplicator.real_input_by_frame.keys().reduce(func(a, b): return max(a, b))
+	if remote_frame == null:
 		return
-	#InputManager.check_for_lag(input_buffer)
-	samurai.movement_remote(input_buffer)
-		
+
+	if remote_frame < frame - MAX_ROLLBACK_FRAMES:
+		var prediction = InputReplicator.get_prediction_input(frame)
+		samurai.movement_remote(prediction)
+		InputReplicator.set_last_predicted_input(prediction)
+	else:
+		var real_input = InputReplicator.real_input_by_frame.get(remote_frame)
+		samurai.movement_remote(real_input)
+		InputReplicator.set_current_remote_input(real_input)
