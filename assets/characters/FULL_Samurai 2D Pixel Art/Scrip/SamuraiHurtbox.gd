@@ -9,7 +9,7 @@ func _ready():
 	connect("area_entered", _on_hitbox_entered)
 
 func _on_hitbox_entered(hitbox: Area2D):
-	if hitbox.is_in_group("SamuraiHitboxes"):
+	if hitbox.is_in_group("KnightHitboxes"):
 		print("Hurtbox hit!")
 		var damage = hitbox.damage if hitbox.has_method("damage") else 10
 		parent.take_damage(damage) 

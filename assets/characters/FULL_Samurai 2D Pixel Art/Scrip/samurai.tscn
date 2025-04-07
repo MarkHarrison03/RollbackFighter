@@ -1,4 +1,4 @@
-[gd_scene load_steps=54 format=3 uid="uid://dhg8oc7ugy2w"]
+[gd_scene load_steps=73 format=3 uid="uid://dhg8oc7ugy2w"]
 
 [ext_resource type="Script" path="res://assets/characters/FULL_Samurai 2D Pixel Art/Scrip/samurai.gd" id="1_8t8i4"]
 [ext_resource type="Texture2D" uid="uid://cre56t0371aab" path="res://assets/characters/FULL_Samurai 2D Pixel Art/NEW VERSION/Sprites/RUN.png" id="1_8tqhf"]
@@ -6,7 +6,10 @@
 [ext_resource type="Texture2D" uid="uid://c0403g66fkl66" path="res://assets/characters/FULL_Samurai 2D Pixel Art/NEW VERSION/Sprites/JUMP.png" id="3_gbvc7"]
 [ext_resource type="Texture2D" uid="uid://ca68ccugevgp2" path="res://assets/characters/FULL_Samurai 2D Pixel Art/NEW VERSION/Sprites/CROUCH.png" id="3_sk5g1"]
 [ext_resource type="Texture2D" uid="uid://ddobff7y6itnw" path="res://assets/characters/FULL_Samurai 2D Pixel Art/NEW VERSION/Sprites/ATTACK 1.png" id="5_0bfa5"]
-[ext_resource type="Script" path="res://assets/characters/FULL_Samurai 2D Pixel Art/Scrip/hitbox.gd" id="8_dkfrc"]
+[ext_resource type="Texture2D" uid="uid://ct42wv1ocjn8a" path="res://assets/characters/FULL_Samurai 2D Pixel Art/NEW VERSION/Sprites/DEATH.png" id="6_jut38"]
+[ext_resource type="Texture2D" uid="uid://bt8o7kvevse0d" path="res://assets/characters/FULL_Samurai 2D Pixel Art/NEW VERSION/Sprites/HURT.png" id="6_kbhd0"]
+[ext_resource type="Script" path="res://assets/characters/FULL_Samurai 2D Pixel Art/Scrip/SamuraiHitbox.gd" id="7_td0ps"]
+[ext_resource type="Script" path="res://assets/characters/FULL_Samurai 2D Pixel Art/Scrip/SamuraiHurtbox.gd" id="8_mpdx5"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xjo1d"]
 atlas = ExtResource("1_8tqhf")
@@ -131,6 +134,58 @@ region = Rect2(279, 0, 93, 112)
 [sub_resource type="AtlasTexture" id="AtlasTexture_3lwjw"]
 atlas = ExtResource("5_0bfa5")
 region = Rect2(372, 0, 93, 112)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_al1ay"]
+atlas = ExtResource("6_jut38")
+region = Rect2(0, 0, 93, 112)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eyqv6"]
+atlas = ExtResource("6_jut38")
+region = Rect2(93, 0, 93, 112)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rewya"]
+atlas = ExtResource("6_jut38")
+region = Rect2(186, 0, 93, 112)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f38g2"]
+atlas = ExtResource("6_jut38")
+region = Rect2(279, 0, 93, 112)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_77o7o"]
+atlas = ExtResource("6_jut38")
+region = Rect2(372, 0, 93, 112)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_70ggw"]
+atlas = ExtResource("6_jut38")
+region = Rect2(465, 0, 93, 112)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_crhqd"]
+atlas = ExtResource("6_jut38")
+region = Rect2(558, 0, 93, 112)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eu786"]
+atlas = ExtResource("6_jut38")
+region = Rect2(651, 0, 93, 112)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2cif3"]
+atlas = ExtResource("6_jut38")
+region = Rect2(744, 0, 93, 112)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rwt6e"]
+atlas = ExtResource("6_jut38")
+region = Rect2(837, 0, 93, 112)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tn62e"]
+atlas = ExtResource("6_kbhd0")
+region = Rect2(0, 0, 93, 112)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3ybgh"]
+atlas = ExtResource("6_kbhd0")
+region = Rect2(93, 0, 93, 112)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s4ixb"]
+atlas = ExtResource("6_kbhd0")
+region = Rect2(186, 0, 93, 112)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pbex7"]
 atlas = ExtResource("3_gbvc7")
@@ -266,6 +321,55 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_al1ay")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eyqv6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rewya")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f38g2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_77o7o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_70ggw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_crhqd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eu786")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2cif3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rwt6e")
+}],
+"loop": true,
+"name": &"death",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tn62e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3ybgh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s4ixb")
+}],
+"loop": true,
+"name": &"hurt",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_pbex7")
 }, {
 "duration": 1.0,
@@ -337,14 +441,26 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Hitbox/CollisionShape2D:disabled")
+tracks/2/path = NodePath("SamuraiHitbox/CollisionShape2D:disabled")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [true]
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("AnimatedSprite2D:sprite_frames")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [SubResource("SpriteFrames_1tr3v")]
 }
 
 [sub_resource type="Animation" id="Animation_2qm8l"]
@@ -406,14 +522,14 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Hitbox/CollisionShape2D:disabled")
+tracks/2/path = NodePath("SamuraiHitbox/CollisionShape2D:disabled")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.4),
-"transitions": PackedFloat32Array(1, 1, 1),
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [true, false, true]
+"values": [false, true]
 }
 
 [sub_resource type="Animation" id="Animation_l4lr5"]
@@ -530,6 +646,86 @@ tracks/1/keys = {
 "values": [0, 1, 2]
 }
 
+[sub_resource type="Animation" id="Animation_7pnyr"]
+resource_name = "hurt"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:sprite_frames")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.0333333),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [SubResource("SpriteFrames_1tr3v")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.0333333),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"hurt"]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AnimatedSprite2D:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.0333333, 0.1, 0.266667),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
+}
+
+[sub_resource type="Animation" id="Animation_rq0bb"]
+resource_name = "death"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"death"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:sprite_frames")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [SubResource("SpriteFrames_1tr3v")]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AnimatedSprite2D:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.6, 0.833333, 1, 1.2, 1.4, 1.63333, 1.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 6, 7, 8, 9]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_qslfv"]
 _data = {
 "Idle": SubResource("Animation_mr4of"),
@@ -539,6 +735,8 @@ _data = {
 "backrun": SubResource("Animation_l4lr5"),
 "crouch": SubResource("Animation_gre6n"),
 "crouchStart": SubResource("Animation_tfpqb"),
+"death": SubResource("Animation_rq0bb"),
+"hurt": SubResource("Animation_7pnyr"),
 "jump": SubResource("Animation_rd47q")
 }
 
@@ -547,6 +745,9 @@ size = Vector2(22.0381, 34.831)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xu1ea"]
 size = Vector2(45, 12)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_drsvt"]
+size = Vector2(15, 26)
 
 [node name="Samurai" type="CharacterBody2D"]
 script = ExtResource("1_8t8i4")
@@ -566,14 +767,22 @@ position = Vector2(0.915877, 3)
 scale = Vector2(0.733649, 0.976142)
 shape = SubResource("RectangleShape2D_jthce")
 
-[node name="Hitbox" type="Area2D" parent="."]
+[node name="SamuraiHitbox" type="Area2D" parent="."]
 collision_layer = 4
 collision_mask = 2
-script = ExtResource("8_dkfrc")
+script = ExtResource("7_td0ps")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SamuraiHitbox"]
 position = Vector2(23, 0)
 shape = SubResource("RectangleShape2D_xu1ea")
-disabled = true
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 4
+script = ExtResource("8_mpdx5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(2.5, 7)
+shape = SubResource("RectangleShape2D_drsvt")
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_finished"]

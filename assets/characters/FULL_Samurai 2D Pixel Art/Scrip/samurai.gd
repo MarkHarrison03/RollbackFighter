@@ -10,7 +10,10 @@ extends CharacterBody2D
 @onready var is_attacking = false
 @onready var controlling = true
 @onready var health = 100
+@onready var canMove = true
+
 @onready var health_bar : ProgressBar
+var is_playing_full_anim := false
 
 
 func get_input_axis():
@@ -29,6 +32,10 @@ func _ready():
 		
 	
 func _physics_process(delta):
+	if health <= 0:
+		canMove = false
+		handle_death()
+		
 	if not is_attacking:
 		axis = get_input_axis()
 		velocity.y += gravity * delta
@@ -39,13 +46,14 @@ func _physics_process(delta):
 	
 
 func horizontal_movement():
+	if canMove:
 
-	var horizontal_input = Input.get_action_strength("right") - Input.get_action_strength("left")
-	
-	if is_attacking:
-		velocity.x = move_toward(velocity.x, 0, speed * 4 * get_physics_process_delta_time())
-	elif is_on_floor() and !crouching:
-		velocity.x = horizontal_input * speed
+		var horizontal_input = Input.get_action_strength("right") - Input.get_action_strength("left")
+		
+		if is_attacking:
+			velocity.x = move_toward(velocity.x, 0, speed * 4 * get_physics_process_delta_time())
+		elif is_on_floor() and !crouching:
+			velocity.x = horizontal_input * speed
 
 #func horizontal_movement_remote (right_input : float, left_input: float):
 	#var horizontal_input = Input.get_action_strength("right") - Input.get_action_strength("left")
@@ -80,31 +88,31 @@ func movement_remote (input_dictionary : Dictionary):
 		var crouch_input = int(input_dictionary.get("crouch", false))
 		var attack_input = int(input_dictionary.get("attack", false))
 	
-	#if canMove:
-		var horizontal_input = right_input - left_input
-		if is_attacking:
-			velocity.x = move_toward(velocity.x, 0, speed * 4 * get_physics_process_delta_time())
-		elif is_on_floor() and !crouching:
+		if canMove:
+			var horizontal_input = right_input - left_input
+			if is_attacking:
+				velocity.x = move_toward(velocity.x, 0, speed * 4 * get_physics_process_delta_time())
+			elif is_on_floor() and !crouching:
 
-			velocity.x = horizontal_input * speed
-			axis.x = right_input - left_input
-			axis.y = crouch_input - jump_input
+				velocity.x = horizontal_input * speed
+				axis.x = right_input - left_input
+				axis.y = crouch_input - jump_input
 
-		if is_on_floor() and jump_input == 1:
-			jump()
-		
-		if attack_input == 1 and is_on_floor():
-			attack()
-		if(crouch_input == 1 and is_on_floor()):
-			play_anim("Crouch")
-			axis.x = 0
-			velocity.x = 0
-			crouching = true
-		else:	
-			crouching = false
+			if is_on_floor() and jump_input == 1:
+				jump()
 			
+			if attack_input == 1 and is_on_floor():
+				attack()
+			if(crouch_input == 1 and is_on_floor()):
+				play_anim("Crouch")
+				axis.x = 0
+				velocity.x = 0
+				crouching = true
+			else:	
+				crouching = false
+				
 
-		play_anims()
+			play_anims()
 
 		move_and_slide()
 		
@@ -114,6 +122,9 @@ func jump():
 	velocity.y = jump_force		
 
 func play_anims():
+			if is_playing_full_anim or is_attacking or !canMove:
+				return
+			
 			if axis.x == 0 and axis.y == 0 and is_on_floor() and not crouching and not is_attacking:
 				play_anim("Idle")		
 			if crouching and is_on_floor() and not is_attacking:
@@ -125,7 +136,7 @@ func play_anims():
 				
 				
 func _input(event):
-	if !controlling:
+	if !controlling or !canMove:
 		return
 		
 	if event.is_action_pressed("crouch") and is_on_floor():
@@ -148,7 +159,28 @@ func _input(event):
 func attack():
 		is_attacking = true
 		play_anim("attack")
- 
+		
+func take_damage(damage : int):
+	if is_playing_full_anim:
+		return 
+	is_playing_full_anim = true
+	velocity.x += 50
+	await play_full_anim("hurt")
+	is_playing_full_anim = false
+	canMove = true
+	health -= damage
+	update_health_bar()
+	move_and_slide()
+
+func update_health_bar():
+	if health_bar:
+		health_bar.value = health
+
+func handle_death():
+		samurai.play("death")
+		await samurai.animation_finished
+
+		get_tree().quit()
 func play_anim(anim_name : String):
 	if samurai.current_animation != anim_name:
 		samurai.play(anim_name)
@@ -162,6 +194,10 @@ func _on_animation_finished(anim_name: StringName) -> void:
 		is_crouch_starting = false
 		play_anim("crouch")
 		
+func play_full_anim(anim_name : String):
+	if samurai.current_animation != anim_name:
+		samurai.play(anim_name)
+		await samurai.animation_finished
 		
 func serialize_binary() -> PackedByteArray:
 	var buffer = PackedByteArray()

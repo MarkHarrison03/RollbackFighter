@@ -10,6 +10,7 @@ extends CharacterBody2D
 @onready var controlling = true
 @onready var canMove = true
 @onready var jumping = false
+@onready var is_attacking = false
 @onready var health_bar : ProgressBar
 
 var is_playing_full_anim := false
@@ -75,7 +76,8 @@ func movement_remote (input_dictionary : Dictionary):
 			
 			velocity.x = horizontal_input * speed
 				
-
+		if attack_input == 1 and is_on_floor():
+			attack()
 
 
 		if(crouch_input == 1 and is_on_floor()):
@@ -90,9 +92,13 @@ func movement_remote (input_dictionary : Dictionary):
 	move_and_slide()
 func _process(delta):
 	play_anims()
-	
+
+func attack():
+		is_attacking = true
+		play_anim("attack")
+		
 func play_anims():
-		if is_playing_full_anim:
+		if is_playing_full_anim or is_attacking:
 			return
 		
 		if canMove and not jumping:
@@ -146,10 +152,7 @@ func take_damage(damage : int):
 func update_health_bar():
 	if health_bar:
 		health_bar.value = health
-func play_anim(anim_name : String):
-	if knight.current_animation != anim_name:
-		knight.play(anim_name)
-		
+
 func play_full_anim(anim_name : String):
 	if knight.current_animation != anim_name:
 		knight.play(anim_name)
@@ -160,6 +163,13 @@ func handle_death():
 		await knight.animation_finished
 
 		get_tree().quit()
+
+func play_anim(anim_name : String):
+	if knight.current_animation != anim_name:
+		knight.play(anim_name)
+		if anim_name == "attack":
+			await knight.animation_finished
+			is_attacking = false
 
 func serialize_binary() -> PackedByteArray:
 	var buffer = PackedByteArray()
