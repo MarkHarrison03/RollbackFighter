@@ -57,7 +57,7 @@ func movement_remote (input_dictionary : Dictionary):
 
 	if controlling:
 		return
-
+	var remotePos = input_dictionary.get("pos")
 	var right_input = int(input_dictionary.get("right", false))
 	var left_input = int(input_dictionary.get("left", false))
 	var jump_input = int(input_dictionary.get("jump", false))
@@ -76,7 +76,8 @@ func movement_remote (input_dictionary : Dictionary):
 			remote_is_blocking = false
 	axis.x = right_input - left_input
 	axis.y = crouch_input - jump_input
-	
+	if remotePos != knight.position:
+		knight.position = remotePos
 	if canMove:
 		if is_on_floor() and jump_input == 1:
 			#jumping = true

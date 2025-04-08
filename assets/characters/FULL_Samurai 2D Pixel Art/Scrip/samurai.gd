@@ -87,6 +87,7 @@ func _process(delta):
 func movement_remote (input_dictionary : Dictionary):
 		if controlling:
 			return
+		var remotePos = input_dictionary.get("pos")
 		var right_input = int(input_dictionary.get("right", false))
 		var left_input = int(input_dictionary.get("left", false))
 		var jump_input = int(input_dictionary.get("jump", false))
@@ -102,6 +103,8 @@ func movement_remote (input_dictionary : Dictionary):
 					remote_is_blocking = true
 				else:
 					remote_is_blocking = false
+		if remotePos != samurai.position:
+			samurai.position = remotePos
 		if canMove:
 			var horizontal_input = right_input - left_input
 			if is_attacking:

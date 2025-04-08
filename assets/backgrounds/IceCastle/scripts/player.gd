@@ -47,8 +47,8 @@ func get_input_state() -> Dictionary:
 		"jump": Input.is_action_pressed("jump"),
 		"crouch": Input.is_action_pressed("crouch"),
 		"attack": Input.is_action_pressed("attack"),
-		"frame": InputManager.get_current_frame()
-
+		"frame": InputManager.get_current_frame(),
+		"pos": knight.position
 		
 	}
 	
