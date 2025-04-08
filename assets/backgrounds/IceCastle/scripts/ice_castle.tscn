@@ -88,6 +88,22 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_83g2h")
 value = 100.0
 show_percentage = false
 
+[node name="TextEdit" type="TextEdit" parent="UI"]
+offset_left = 13.0
+offset_top = 32.0
+offset_right = 143.0
+offset_bottom = 68.0
+theme_override_colors/background_color = Color(0.596078, 0.239216, 0.247059, 1)
+text = "SAMURAI"
+
+[node name="TextEdit2" type="TextEdit" parent="UI"]
+offset_left = 1031.0
+offset_top = 30.0
+offset_right = 1122.0
+offset_bottom = 66.0
+theme_override_colors/background_color = Color(0.596078, 0.239216, 0.247059, 1)
+text = "KNIGHT"
+
 [node name="Frametext" type="TextEdit" parent="."]
 offset_left = 300.0
 offset_top = 70.0
