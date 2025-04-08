@@ -8,7 +8,8 @@ var player_id : int
 var current_prediction : Dictionary
 var predict : bool
 var game_started := false
-
+@onready var frame_text = get_node("/root/IceCastle/Frametext")
+@onready var rollback_text = get_node("/root/IceCastle/Rollbacktext")
 var last_heartbeat_sendtime := 0
 var last_heartbeat_recievedtime := 0
 const input_timeout_ms := 200
@@ -26,6 +27,8 @@ func _ready():
 	#var script =  load("res://RollbackManager.gd")
 	#rollbackManager = script.new()
 	predict = false
+	frame_text = get_node("/root/IceCastle/Frametext")
+	rollback_text = get_node("/root/IceCastle/Rollbacktext")
 	if multiplayer.get_unique_id() == 1:
 		player_id = 1
 		opponent = get_node_or_null("/root/IceCastle/Knight")
@@ -38,12 +41,18 @@ func _ready():
 
 ## Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
+	assign_text()
+	if frame_text:
+		frame_text.text = "Frame Difference: %d" % (current_frame - remote_frame)
 	
 	if abs(current_frame - remote_frame) > 12:
 		
 		#print("UNSYNCED")
 		#when the unsync is detected, we want to set the last frame to the sync frame
 		RollbackManager.set_sync_frame(current_frame)
+		if rollback_text:
+
+			rollback_text.text = "Rollback:YES"
 		
 	else:
 	#	print("NO MORE LATENCY", randi())
@@ -53,9 +62,12 @@ func _physics_process(delta: float) -> void:
 					var predicted = InputReplicator.predicted_input_by_frame[frame]
 					
 					var actual = InputReplicator.real_input_by_frame[frame]
+					if rollback_text:
+						rollback_text.text = "Rollback: NO"
 					if predicted != actual:
 						print("sync frame", RollbackManager.last_synced_frame)
 						print("mismatch at frame ", frame)
+				
 						RollbackManager.rollback()
 						
 				RollbackManager.sync_locked =false
@@ -117,7 +129,9 @@ func set_current_frame(frame: int):
 	
 func flip_predict():
 	predict = !predict
-
+func assign_text():
+	frame_text = get_node("/root/IceCastle/Frametext")
+	rollback_text = get_node("/root/IceCastle/Rollbacktext")
 #func check_for_lag(input_buffer: Dictionary) -> bool:
 	#if not input_buffer.has("frame"):
 		#return false
